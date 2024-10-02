@@ -1,3 +1,6 @@
+window.adobeDataLayer = window.adobeDataLayer || []
+window.adobeDataLayer.push({ test: 'Hello World' })
+console.log(window.adobeDataLayer)
 let cartItems = []
 const cartSummary = document.getElementById('cart-items')
 const cartTotal = document.getElementById('cart-total')
@@ -9,6 +12,8 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
 
     // Add product to cart
     cartItems.push({ product, price })
+    window.adobeDataLayer.push({ purchase: cartItems })
+
     updateCart()
   })
 })

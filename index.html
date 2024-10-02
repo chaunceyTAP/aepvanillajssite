@@ -10,6 +10,11 @@
     src="https://assets.adobedtm.com/7595315f3cd2/3ef3bf65c5fe/launch-3586fd84f37c-development.min.js"
     async
   ></script>
+  <script>
+    window.adobeDataLayer = window.adobeDataLayer || []
+    window.adobeDataLayer.push({ test1: 'Hello World' })
+  </script>
+  <script src="js/adobe-client-data-layer.min.js" async defer></script>
   <body>
     <header>
       <div class="logo">SimpleStore</div>
