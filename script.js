@@ -1,5 +1,4 @@
 window.adobeDataLayer = window.adobeDataLayer || []
-window.adobeDataLayer.push({ test: 'Hello World' })
 state = []
 console.log(window.adobeDataLayer)
 let cartItems = []
