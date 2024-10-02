@@ -12,10 +12,15 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
 
     // Add product to cart
     cartItems.push({ product, price })
-    state.push({ addedToCart: cartItems })
-    window.adobeDataLayer = state
+    if (!state.addedToCart) {
+      // state.push({ addedToCart: cartItems })
+      window.adobeDataLayer = cartItems
+    } else {
+      window.adobeDataLayer = state
+    }
+
     console.log(window.adobeDataLayer)
-    console.log(window.adobeDataLayer)
+
     updateCart()
   })
 })
@@ -52,14 +57,53 @@ function updateCart() {
 
 function removeFromCart(index) {
   // Remove item from cart
+  window.adobeDataLayer = []
+
   cartItems.splice(index, 1)
   updateCart()
 }
 
 document.getElementById('checkout-form').addEventListener('submit', (e) => {
+  // state.push({ event: 'purchase', cartItems: cartItems })
+  // window.adobeDataLayer = state
+  // window.adobeDataLayer.pop('addedToCart')
+  // window.adobeDataLayer.pop('updatedCart')
+
+  for (let item in window.adobeDataLayer) {
+    if (item.product) {
+      window.adobeDataLayer.shift()
+    }
+  }
+
   e.preventDefault()
-  alert('Purchase successful!')
-  window.adobeDataLayer.push({ event: 'purchase', cartItems: cartItems })
+  alert(JSON.stringify(state))
+  console.log(JSON.stringify(state))
+
+  // Capture the name and email
+  const name = document.getElementById('name').value
+  const email = document.getElementById('email').value
+
+  // Create an object with the captured data
+  const customerData = {
+    event: 'checkoutSubmit',
+    customer: {
+      name: name,
+      email: email,
+    },
+    cart: {
+      items: cartItems.map((item) => ({
+        product: item.product,
+        price: item.price,
+      })),
+      total: cartTotal.textContent,
+    },
+  }
+
+  // Push the customer data to the data layer
+  window.adobeDataLayer.push(customerData)
+
+  console.log('Customer data pushed to the data layer:', customerData)
+
   // Reset cart and form
   cartItems.length = 0
   updateCart()
