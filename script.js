@@ -45,6 +45,7 @@ function updateCart() {
     button.addEventListener('click', () => {
       const index = button.dataset.index
       removeFromCart(index)
+      window.adobeDataLayer.push({ updatedCart: cartItems })
     })
   })
 }
@@ -58,7 +59,7 @@ function removeFromCart(index) {
 document.getElementById('checkout-form').addEventListener('submit', (e) => {
   e.preventDefault()
   alert('Purchase successful!')
-
+  window.adobeDataLayer.push({ event: 'purchase', cartItems: cartItems })
   // Reset cart and form
   cartItems.length = 0
   updateCart()
