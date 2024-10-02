@@ -82,6 +82,17 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   // Capture the name and email
   const name = document.getElementById('name').value
   const email = document.getElementById('email').value
+  let dt = new Date().getTime()
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+    /[xy]/g,
+    function (c) {
+      const r = (dt + Math.random() * 16) % 16 | 0
+      dt = Math.floor(dt / 16)
+      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+    }
+  )
+
+  const personId = uuid
 
   // Create an object with the captured data
   const customerData = {
@@ -89,6 +100,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     customer: {
       name: name,
       email: email,
+      personID: personId,
     },
     cart: {
       items: cartItems.map((item) => ({
