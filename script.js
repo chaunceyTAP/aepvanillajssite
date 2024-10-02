@@ -12,8 +12,8 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
 
     // Add product to cart
     cartItems.push({ product, price })
-    window.adobeDataLayer.push({ purchase: cartItems })
-
+    window.adobeDataLayer.push({ addedToCart: cartItems })
+    console.log(window.adobeDataLayer)
     updateCart()
   })
 })
