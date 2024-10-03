@@ -218,7 +218,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         emailAddress: customerData.eventInfo.customer.email,
       },
       _id: customerData._id,
-      personID: customerData.personID,
+      personID: customerData._id,
       eventType: customerData.event,
       productListItems: [
         {
