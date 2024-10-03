@@ -102,6 +102,14 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       email: email,
       personID: personId,
     },
+    _experience: {
+      campaign: {
+        orchestration: {
+          eventID:
+            'ccb7e2bb5d6666c6298a4cee26fefa6db49e13d9a256baa1a81f621cc4956d18',
+        },
+      },
+    },
     cart: {
       items: cartItems.map((item) => ({
         product: item.product,
