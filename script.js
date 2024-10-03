@@ -128,6 +128,29 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         total: cartTotal.textContent,
       },
     },
+
+    _id: eventId,
+    customer: {
+      name: name,
+      email: email,
+      personID: personId,
+      contactId: personId,
+    },
+    _experience: {
+      campaign: {
+        orchestration: {
+          eventID:
+            'ccb7e2bb5d6666c6298a4cee26fefa6db49e13d9a256baa1a81f621cc4956d18',
+        },
+      },
+    },
+    cart: {
+      items: cartItems.map((item) => ({
+        product: item.product,
+        price: item.price,
+      })),
+      total: cartTotal.textContent,
+    },
   }
 
   // Push the customer data to the data layer
