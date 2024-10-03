@@ -101,6 +101,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       name: name,
       email: email,
       personID: personId,
+      contactId: personId,
     },
     _experience: {
       campaign: {
