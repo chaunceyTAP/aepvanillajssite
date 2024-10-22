@@ -5,6 +5,34 @@ console.log(window.adobeDataLayer)
 let cartItems = []
 const cartSummary = document.getElementById('cart-items')
 const cartTotal = document.getElementById('cart-total')
+let dt = new Date().getTime()
+let ECID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+  /[xy]/g,
+  function (c) {
+    const r = (dt + Math.random() * 16) % 16 | 0
+    dt = Math.floor(dt / 16)
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  }
+)
+// SENDS SITE VIEW EVENT TO AEP
+// const site_view = () => {
+//   alloy('sendEvent', {
+//     // data: customerData,
+//     documentUnloading: false,
+//     edgeConfigOverrides: {
+//       datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
+//     },
+//     renderDecisions: true,
+//     type: 'SITE VIEW',
+//     xdm: {
+//       _taplondonptrsd: {
+//         ECID: ECID,
+//       },
+//       eventType: 'SITE VIEW',
+//     },
+//   })
+// }
+// site_view()
 
 document.querySelectorAll('.add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -83,7 +111,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   // Capture the name and email
   const name = document.getElementById('name').value
   const email = document.getElementById('email').value
-  let dt = new Date().getTime()
+  // let dt = new Date().getTime()
   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
     /[xy]/g,
     function (c) {
@@ -137,6 +165,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       email: email,
       personID: personId,
       contactId: personId,
+      ECID: ECID,
     },
     _experience: {
       campaign: {
@@ -158,44 +187,6 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   // Push the customer data to the data layer
   window.adobeDataLayer.push(customerData)
 
-  // alloy('configure', {
-  //   datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-  //   orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
-  //   clickCollectionEnabled: true,
-  //   clickCollection: {
-  //     internalLinkEnabled: true,
-  //     downloadLinkEnabled: true,
-  //     externalLinkEnabled: true,
-  //     eventGroupingEnabled: true,
-  //     sessionStorageEnabled: true,
-  //   },
-  //   context: [
-  //     'web',
-  //     'device',
-  //     'environment',
-  //     'placeContext',
-  //     'highEntropyUserAgentHints',
-  //   ],
-  //   debugEnabled: true,
-  //   defaultConsent: 'pending',
-  //   downloadLinkQualifier:
-  //     '.(exe|zip|wav|mp3|mov|mpg|avi|wmv|pdf|doc|docx|xls|xlsx|ppt|pptx)$',
-  //   edgeBasePath: 'ee',
-  //   edgeConfigOverrides: {
-  //     datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-  //   },
-  //   edgeDomain: 'data.example.com',
-  //   idMigrationEnabled: false,
-  //   // onBeforeEventSend: function (content) {
-  //   //   if (content.xdm.web?.webReferrer) delete content.xdm.web.webReferrer.URL
-  //   // },
-  //   // onBeforeLinkClickSend: function (content) {
-  //   //   content.xdm.web.webPageDetails.URL = 'https://example.com/current.html'
-  //   // },
-  //   prehidingStyle: '#container { opacity: 0 !important }',
-  //   targetMigrationEnabled: true,
-  //   thirdPartyCookiesEnabled: false,
-  // })
   alloy('sendEvent', {
     data: customerData,
     documentUnloading: false,
@@ -216,15 +207,20 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       _taplondonptrsd: {
         contactId: customerData.eventInfo.customer.contactId,
         emailAddress: customerData.eventInfo.customer.email,
+        ECID: ECID,
       },
       _id: customerData._id,
       personID: customerData._id,
       eventType: customerData.event,
-      productListItems: [
-        {
-          SKU: customerData.cart.total,
-        },
-      ],
+      productListItems: cartItems.map((item) => ({
+        product: item.product,
+        priceTotal: item.price,
+      })),
+      // [
+      //   {
+      //     SKU: customerData.cart.total,
+      //   },
+      // ],
     },
   })
   console.log('Customer data pushed to the data layer:', customerData)
