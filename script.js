@@ -27,6 +27,7 @@ let ECID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
 //     xdm: {
 //       _taplondonptrsd: {
 //         ECID: ECID,
+//         personID: ECID,
 //       },
 //       eventType: 'SITE VIEW',
 //     },
@@ -141,6 +142,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         email: email,
         personID: personId,
         contactId: personId,
+        ECID: ECID,
       },
       _experience: {
         campaign: {
@@ -208,9 +210,10 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         contactId: customerData.eventInfo.customer.contactId,
         emailAddress: customerData.eventInfo.customer.email,
         ECID: ECID,
+        personID: ECID,
       },
       _id: customerData._id,
-      personID: customerData._id,
+      personID: ECID,
       eventType: customerData.event,
       productListItems: cartItems.map((item) => ({
         product: item.product,
