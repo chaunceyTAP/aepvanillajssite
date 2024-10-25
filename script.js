@@ -41,9 +41,9 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const product = button.dataset.product
     const price = parseFloat(button.dataset.price)
-
+    const sku = button.dataset.product
     // Add product to cart
-    cartItems.push({ product, price })
+    cartItems.push({ product, price, sku })
     // adobeDataLayer.push({ cartItems })
 
     window.adobeDataLayer.push({ addedToCart: { items: [...cartItems] } })
