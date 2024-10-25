@@ -182,14 +182,14 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       },
     },
     cart: [
-      {
-        items: cartItems.map((item) => ({
-          product: item.product,
-          price: item.price,
-        })),
-        total: cartTotal.textContent,
-      },
+      cartItems.map((item) => ({
+        product: item.product,
+        price: item.price,
+      })),
+      // total: cartTotal.textContent,
+      ,
     ],
+    total: cartTotal.textContent,
   }
 
   // Push the customer data to the data layer
