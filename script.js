@@ -45,7 +45,7 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
 
     if (!state.addedToCart) {
       // state.push({ addedToCart: cartItems })
-      window.adobeDataLayer.pop(state.addedToCart)
+      // window.adobeDataLayer.pop(state.addedToCart)
       window.adobeDataLayer.push({ addedToCart: cartItems })
     } else {
       // window.adobeDataLayer.pop(state.addedToCart)
