@@ -44,19 +44,8 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
     cartItems.push({ product, price })
     // adobeDataLayer.push({ cartItems })
 
-    if (!state.addedToCart) {
-      // state.push({ addedToCart: cartItems })
-      window.adobeDataLayer = cartItems
-      window.adobeDataLayer.pop(state.addedToCart)
-      window.adobeDataLayer.push({ addedToCart: cartItems })
-    } else {
-      // window.adobeDataLayer.pop(state.addedToCart)
-      window.adobeDataLayer = state
-    }
-    // adobeDataLayer.push({ cartItems })
-
+    window.adobeDataLayer.push({ addedToCart: { items: [...cartItems] } })
     console.log(window.adobeDataLayer)
-
     updateCart()
   })
 })
@@ -66,27 +55,29 @@ function updateCart() {
   cartSummary.innerHTML = ''
   let total = 0
 
-  // Update cart items
+  // Update cart items and total price
   cartItems.forEach((item, index) => {
     const li = document.createElement('li')
     li.className = 'cart-item'
     li.innerHTML = `
-     ${item.product} - $${item.price.toFixed(2)}
-     <button class="remove-from-cart" data-index="${index}">Remove</button>
-   `
+      ${item.product} - $${item.price}
+      <button class="remove-from-cart" data-index="${index}">Remove</button>
+    `
     cartSummary.appendChild(li)
     total += item.price
   })
 
-  // Update total price
-  cartTotal.textContent = total.toFixed(2)
+  // Update total price display
+  cartTotal.textContent = total
 
   // Add event listeners to remove buttons
   document.querySelectorAll('.remove-from-cart').forEach((button) => {
     button.addEventListener('click', () => {
       const index = button.dataset.index
       removeFromCart(index)
-      window.adobeDataLayer.push({ updatedCart: cartItems })
+      window.adobeDataLayer.push({
+        updatedCart: { items: [...cartItems], total },
+      })
     })
   })
 }
