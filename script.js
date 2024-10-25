@@ -39,13 +39,15 @@ document.querySelectorAll('.add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const product = button.dataset.product
     const price = parseFloat(button.dataset.price)
+
     // Add product to cart
     cartItems.push({ product, price })
     // adobeDataLayer.push({ cartItems })
 
     if (!state.addedToCart) {
       // state.push({ addedToCart: cartItems })
-      // window.adobeDataLayer.pop(state.addedToCart)
+      window.adobeDataLayer = cartItems
+      window.adobeDataLayer.pop(state.addedToCart)
       window.adobeDataLayer.push({ addedToCart: cartItems })
     } else {
       // window.adobeDataLayer.pop(state.addedToCart)
@@ -69,9 +71,9 @@ function updateCart() {
     const li = document.createElement('li')
     li.className = 'cart-item'
     li.innerHTML = `
-      ${item.product} - $${item.price.toFixed(2)}
-      <button class="remove-from-cart" data-index="${index}">Remove</button>
-    `
+     ${item.product} - $${item.price.toFixed(2)}
+     <button class="remove-from-cart" data-index="${index}">Remove</button>
+   `
     cartSummary.appendChild(li)
     total += item.price
   })
