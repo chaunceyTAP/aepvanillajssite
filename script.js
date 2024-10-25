@@ -187,9 +187,8 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         price: item.price,
       })),
       // total: cartTotal.textContent,
-      ,
     ],
-    total: cartTotal.textContent,
+    // total: cartTotal.textContent,
   }
 
   // Push the customer data to the data layer
