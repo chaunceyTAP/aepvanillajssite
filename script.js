@@ -14,6 +14,8 @@ let ECID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
   }
 )
+window.adobeDataLayer.push({ personID: ECID })
+
 // SENDS SITE VIEW EVENT TO AEP
 // const site_view = () => {
 //   alloy('sendEvent', {
@@ -189,9 +191,9 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   alloy('sendEvent', {
     data: customerData,
     documentUnloading: false,
-    edgeConfigOverrides: {
-      datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-    },
+    // edgeConfigOverrides: {
+    //   datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
+    // },
     renderDecisions: true,
     type: 'commerce.purchases',
     xdm: {
