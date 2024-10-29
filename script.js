@@ -129,7 +129,6 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     },
     // cart: {
     productListItems: cartItems.map((item) => ({
-      // product: item.product,
       price: item.price,
       SKU: item.product,
     })),
@@ -139,11 +138,11 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   window.adobeDataLayer.push(customerData)
 
   alloy('sendEvent', {
-    data: { adobeDataLayer },
+    data: { customerData },
     documentUnloading: false,
-    edgeConfigOverrides: {
-      datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-    },
+    // edgeConfigOverrides: {
+    //   datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
+    // },
     renderDecisions: true,
     type: 'checkoutSubmit',
     xdm: {
@@ -158,7 +157,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       _taplondonptrsd: {
         contactId: customerData._taplondonptrsd.contactId,
         emailAddress: customerData._taplondonptrsd.email,
-        data_layer_at_send: { adobeDataLayer },
+        // data_layer_at_send: { adobeDataLayer },
       },
       _id: customerData._id,
       personID: ECID,
