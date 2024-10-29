@@ -16,27 +16,6 @@ let ECID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
 )
 window.adobeDataLayer.push({ personID: ECID })
 
-// SENDS SITE VIEW EVENT TO AEP
-// const site_view = () => {
-//   alloy('sendEvent', {
-//     // data: customerData,
-//     documentUnloading: false,
-//     edgeConfigOverrides: {
-//       datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-//     },
-//     renderDecisions: true,
-//     type: 'SITE VIEW',
-//     xdm: {
-//       _taplondonptrsd: {
-//         ECID: ECID,
-//         personID: ECID,
-//       },
-//       eventType: 'SITE VIEW',
-//     },
-//   })
-// }
-// site_view()
-
 document.querySelectorAll('.add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const product = button.dataset.product
@@ -105,7 +84,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   }
 
   e.preventDefault()
-  alert(JSON.stringify(state))
+  // alert(JSON.stringify(state))
   console.log(JSON.stringify(state))
 
   // Capture the name and email
@@ -133,40 +112,12 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   // Create an object with the captured data
   const customerData = {
     event: 'checkoutSubmit',
-    eventInfo: {
-      event: 'checkoutSubmit',
-      _id: eventId,
-      customer: {
-        name: name,
-        email: email,
-        personID: personId,
-        contactId: personId,
-        ECID: ECID,
-      },
-      _experience: {
-        campaign: {
-          orchestration: {
-            eventID:
-              'f77d8217ce0d57a43dc15f62b34a3ec617e9ce72ac6d5e09492367f74e67000a',
-          },
-        },
-      },
-      cart: {
-        items: cartItems.map((item) => ({
-          product: item.product,
-          price: item.price,
-        })),
-        total: cartTotal.textContent,
-      },
-    },
-
+    // eventInfo: {
     _id: eventId,
-    customer: {
+    _taplondonptrsd: {
       name: name,
       email: email,
-      personID: personId,
       contactId: personId,
-      ECID: ECID,
     },
     _experience: {
       campaign: {
@@ -176,27 +127,25 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         },
       },
     },
-    cart: {
-      items: cartItems.map((item) => ({
-        sku: item.product,
-        product: item.product,
-        price: item.price,
-      })),
-      total: cartTotal.textContent,
-    },
+    // cart: {
+    productListItems: cartItems.map((item) => ({
+      // product: item.product,
+      price: item.price,
+      SKU: item.product,
+    })),
   }
 
   // Push the customer data to the data layer
   window.adobeDataLayer.push(customerData)
 
   alloy('sendEvent', {
-    data: customerData,
+    data: { adobeDataLayer },
     documentUnloading: false,
-    // edgeConfigOverrides: {
-    //   datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
-    // },
+    edgeConfigOverrides: {
+      datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
+    },
     renderDecisions: true,
-    type: 'commerce.purchases',
+    type: 'checkoutSubmit',
     xdm: {
       _experience: {
         campaign: {
@@ -207,24 +156,17 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         },
       },
       _taplondonptrsd: {
-        contactId: customerData.eventInfo.customer.contactId,
-        emailAddress: customerData.eventInfo.customer.email,
-        ECID: ECID,
-        personID: ECID,
+        contactId: customerData._taplondonptrsd.contactId,
+        emailAddress: customerData._taplondonptrsd.email,
+        data_layer_at_send: { adobeDataLayer },
       },
       _id: customerData._id,
       personID: ECID,
       eventType: customerData.event,
       productListItems: cartItems.map((item) => ({
-        sku: item.product,
-        product: item.product,
+        SKU: item.product,
         priceTotal: item.price,
       })),
-      // [
-      //   {
-      //     SKU: customerData.cart.total,
-      //   },
-      // ],
     },
   })
   console.log('Customer data pushed to the data layer:', customerData)
