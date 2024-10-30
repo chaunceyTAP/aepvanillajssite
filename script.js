@@ -112,11 +112,9 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   // Create an object with the captured data
   const customerData = {
     event: 'checkoutSubmit',
-    // eventInfo: {
     _id: eventId,
     _taplondonptrsd: {
-      name: name,
-      email: email,
+      email: { address: email },
       contactId: personId,
     },
     _experience: {
@@ -127,11 +125,11 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
         },
       },
     },
-    // cart: {
     productListItems: cartItems.map((item) => ({
-      price: item.price,
+      priceTotal: item.price,
       SKU: item.product,
     })),
+    timestamp: '2024-10-16T22:07:47.000Z',
   }
 
   // Push the customer data to the data layer
@@ -145,28 +143,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     // },
     renderDecisions: true,
     type: 'checkoutSubmit',
-    xdm: {
-      _experience: {
-        campaign: {
-          orchestration: {
-            eventID:
-              'f77d8217ce0d57a43dc15f62b34a3ec617e9ce72ac6d5e09492367f74e67000a',
-          },
-        },
-      },
-      _taplondonptrsd: {
-        contactId: customerData._taplondonptrsd.contactId,
-        emailAddress: customerData._taplondonptrsd.email,
-        // data_layer_at_send: { adobeDataLayer },
-      },
-      _id: customerData._id,
-      personID: ECID,
-      eventType: customerData.event,
-      productListItems: cartItems.map((item) => ({
-        SKU: item.product,
-        priceTotal: item.price,
-      })),
-    },
+    xdm: customerData,
   })
   console.log('Customer data pushed to the data layer:', customerData)
 
