@@ -129,12 +129,17 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       priceTotal: item.price,
       SKU: item.product,
     })),
-    timestamp: '2024-10-16T22:07:47.000Z',
+    timestamp: '2024-11-19T22:07:47.000Z',
   }
 
   // Push the customer data to the data layer
   window.adobeDataLayer.push(customerData)
-
+  alloy('sendEvent', {
+    renderDecisions: true,
+    personalization: {
+      surfaces: ['#aepvanillasiteweb'],
+    },
+  })
   alloy('sendEvent', {
     data: { customerData },
     documentUnloading: false,
