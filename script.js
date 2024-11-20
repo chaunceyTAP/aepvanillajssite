@@ -134,12 +134,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
 
   // Push the customer data to the data layer
   window.adobeDataLayer.push(customerData)
-  alloy('sendEvent', {
-    renderDecisions: true,
-    personalization: {
-      surfaces: ['#aepvanillasiteweb'],
-    },
-  })
+
   alloy('sendEvent', {
     data: { customerData },
     documentUnloading: false,
@@ -150,6 +145,12 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     type: 'checkoutSubmit',
     xdm: customerData,
   })
+  alloy('sendEvent', {
+    renderDecisions: true,
+    personalization: {
+      surfaces: ['#code-based'],
+    },
+  }).then(applyPersonalization('#code-based'))
   console.log('Customer data pushed to the data layer:', customerData)
 
   // Reset cart and form
