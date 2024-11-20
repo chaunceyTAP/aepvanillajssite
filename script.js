@@ -57,22 +57,36 @@ function applyPersonalization(surfaceName) {
     )[0]
 
     if (proposition) {
-      const element = document.querySelector('img.ajo-decision')
+      const element = document.querySelector('.products')
 
       const {
         buttonActions = [],
-        heroImageName = 'demo-marketing-decision1-default.png',
+        thankYouMessage = 'Thank you for completing your order!',
       } = proposition.items[0].data.content
 
       updateButtons(buttonActions)
 
-      element.src = `img/${heroImageName}`
+      // Replace the hero image update with a thank-you message div
+      const thankYouDiv = document.createElement('div')
+      thankYouDiv.className = 'thank-you-note'
+      thankYouDiv.style.padding = '20px'
+      thankYouDiv.style.margin = '20px auto'
+      thankYouDiv.style.backgroundColor = '#f9f9f9'
+      thankYouDiv.style.border = '1px solid #ccc'
+      thankYouDiv.style.borderRadius = '10px'
+      thankYouDiv.style.textAlign = 'center'
+
+      thankYouDiv.innerHTML = `<h2>${thankYouMessage}</h2>`
+
+      // Clear previous content and append the thank-you div
+      element.innerHTML = ''
+      element.appendChild(thankYouDiv)
     }
   }
 }
 
 function displayError(err) {
-  const containerElement = document.getElementById('main-container')
+  const containerElement = document.getElementById('products')
   if (!containerElement) {
     return
   }
