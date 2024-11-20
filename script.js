@@ -1,3 +1,88 @@
+function createIdentityPayload(
+  id,
+  authenticatedState = 'ambiguous',
+  primary = true
+) {
+  if (id.length === 0) {
+    return undefined
+  }
+
+  return {
+    id,
+    authenticatedState,
+    primary,
+  }
+}
+
+function sendDisplayEvent(decision) {
+  const { id, scope, scopeDetails = {} } = decision
+
+  alloy('sendEvent', {
+    xdm: {
+      eventType: 'decisioning.propositionDisplay',
+      _experience: {
+        decisioning: {
+          propositions: [
+            {
+              id: id,
+              scope: scope,
+              scopeDetails: scopeDetails,
+            },
+          ],
+        },
+      },
+    },
+  })
+}
+
+function updateButtons(buttonActions) {
+  buttonActions.forEach((buttonAction) => {
+    const { id, text, content } = buttonAction
+
+    const element = document.getElementById(`action-button-${id}`)
+    element.innerText = text
+
+    element.addEventListener('click', () => alert(content))
+  })
+}
+
+function applyPersonalization(surfaceName) {
+  return function (result) {
+    const { propositions = [], decisions = [] } = result
+    // send display event for the surface
+    decisions.forEach((decision) => sendDisplayEvent(decision))
+
+    const proposition = propositions.filter((p) =>
+      p.scope.endsWith(surfaceName)
+    )[0]
+
+    if (proposition) {
+      const element = document.querySelector('img.ajo-decision')
+
+      const {
+        buttonActions = [],
+        heroImageName = 'demo-marketing-decision1-default.png',
+      } = proposition.items[0].data.content
+
+      updateButtons(buttonActions)
+
+      element.src = `img/${heroImageName}`
+    }
+  }
+}
+
+function displayError(err) {
+  const containerElement = document.getElementById('main-container')
+  if (!containerElement) {
+    return
+  }
+
+  containerElement.innerHTML = `<div id="error-detail" class="page-header">
+                                      <h3>&#128565; There was an error</h3>
+                                      <div class="alert alert-danger" role="alert">${err.message}</div>
+                                    </div>`
+}
+
 window.adobeDataLayer = window.adobeDataLayer || []
 state = []
 
@@ -158,87 +243,3 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   updateCart()
   e.target.reset()
 })
-function createIdentityPayload(
-  id,
-  authenticatedState = 'ambiguous',
-  primary = true
-) {
-  if (id.length === 0) {
-    return undefined
-  }
-
-  return {
-    id,
-    authenticatedState,
-    primary,
-  }
-}
-
-function sendDisplayEvent(decision) {
-  const { id, scope, scopeDetails = {} } = decision
-
-  alloy('sendEvent', {
-    xdm: {
-      eventType: 'decisioning.propositionDisplay',
-      _experience: {
-        decisioning: {
-          propositions: [
-            {
-              id: id,
-              scope: scope,
-              scopeDetails: scopeDetails,
-            },
-          ],
-        },
-      },
-    },
-  })
-}
-
-function updateButtons(buttonActions) {
-  buttonActions.forEach((buttonAction) => {
-    const { id, text, content } = buttonAction
-
-    const element = document.getElementById(`action-button-${id}`)
-    element.innerText = text
-
-    element.addEventListener('click', () => alert(content))
-  })
-}
-
-function applyPersonalization(surfaceName) {
-  return function (result) {
-    const { propositions = [], decisions = [] } = result
-    // send display event for the surface
-    decisions.forEach((decision) => sendDisplayEvent(decision))
-
-    const proposition = propositions.filter((p) =>
-      p.scope.endsWith(surfaceName)
-    )[0]
-
-    if (proposition) {
-      const element = document.querySelector('img.ajo-decision')
-
-      const {
-        buttonActions = [],
-        heroImageName = 'demo-marketing-decision1-default.png',
-      } = proposition.items[0].data.content
-
-      updateButtons(buttonActions)
-
-      element.src = `img/${heroImageName}`
-    }
-  }
-}
-
-function displayError(err) {
-  const containerElement = document.getElementById('main-container')
-  if (!containerElement) {
-    return
-  }
-
-  containerElement.innerHTML = `<div id="error-detail" class="page-header">
-                                      <h3>&#128565; There was an error</h3>
-                                      <div class="alert alert-danger" role="alert">${err.message}</div>
-                                    </div>`
-}
