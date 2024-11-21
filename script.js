@@ -243,13 +243,24 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     renderDecisions: true,
     type: 'checkoutSubmit',
     xdm: customerData,
+  }).then((response) => {
+    if (response.experience) {
+      const content = response.experience[0].content
+      document.getElementById('#code-based').innerHTML = content
+    } else {
+      console.error('No experience content received.')
+    }
   })
   alloy('sendEvent', {
     renderDecisions: true,
     personalization: {
       surfaces: ['#code-based'],
     },
-  }).then(applyPersonalization('#code-based'))
+  })
+    .then(applyPersonalization('#code-based'))
+    .catch((error) => {
+      console.error('Error rendering experience:', error)
+    })
   console.log('Customer data pushed to the data layer:', customerData)
 
   // Reset cart and form
