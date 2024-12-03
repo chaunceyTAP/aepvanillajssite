@@ -5,6 +5,7 @@ alloy('configure', {
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
 
+console.log('addded alloyc config')
 const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,
