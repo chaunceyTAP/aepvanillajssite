@@ -9,10 +9,31 @@
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="pragma" content="no-cache" />
   </head>
+  <script>
+    !(function (n, o) {
+      o.forEach(function (o) {
+        n[o] ||
+          ((n.__alloyNS = n.__alloyNS || []).push(o),
+          (n[o] = function () {
+            var u = arguments
+            return new Promise(function (i, l) {
+              n[o].q.push([i, l, u])
+            })
+          }),
+          (n[o].q = []))
+      })
+    })(window, ['alloy'])
+  </script>
+  <script
+    src="https://cdn1.adoberesources.net/alloy/2.14.0/alloy.min.js"
+    async
+  ></script>
+
   <script
     src="https://assets.adobedtm.com/7595315f3cd2/3ef3bf65c5fe/launch-3586fd84f37c-development.min.js"
     async
   ></script>
+
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'

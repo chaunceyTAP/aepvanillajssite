@@ -1,5 +1,10 @@
 window.adobeDataLayer = window.adobeDataLayer || []
 state = []
+alloy('configure', {
+  datastreamId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
+  orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
+})
+
 const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,

@@ -1,0 +1,42 @@
+"use strict";
+
+exports.default = void 0;
+var _appendNode = require("./appendNode.js");
+var _isObject = require("../isObject.js");
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+const populateElementProperties = (element, props) => {
+  Object.keys(props).forEach(key => {
+    // The following is to support setting style properties to avoid CSP errors.
+    if (key === "style" && (0, _isObject.default)(props[key])) {
+      const styleProps = props[key];
+      Object.keys(styleProps).forEach(styleKey => {
+        element.style[styleKey] = styleProps[styleKey];
+      });
+    } else {
+      element[key] = props[key];
+    }
+  });
+};
+var _default = (tag, attrs = {}, props = {}, children = [], doc = document) => {
+  const result = doc.createElement(tag);
+  Object.keys(attrs).forEach(key => {
+    // TODO: To highlight CSP problems consider throwing a descriptive error
+    //       if nonce is available and key is style.
+    result.setAttribute(key, attrs[key]);
+  });
+  populateElementProperties(result, props);
+  children.forEach(child => (0, _appendNode.default)(result, child));
+  return result;
+};
+exports.default = _default;

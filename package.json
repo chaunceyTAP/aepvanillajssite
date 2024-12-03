@@ -18,6 +18,7 @@
   "homepage": "https://github.com/chaunceyTAP/aepvanillajssite#readme",
   "dependencies": {
     "@adobe/adobe-client-data-layer": "^2.0.2",
+    "@adobe/alloy": "^2.24.0",
     "firebase": "^11.0.2",
     "vanilla-js-site": "file:"
   }
