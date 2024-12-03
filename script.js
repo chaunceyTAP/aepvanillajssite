@@ -1,20 +1,117 @@
-function createIdentityPayload(
-  id,
-  authenticatedState = 'ambiguous',
-  primary = true
-) {
-  if (id.length === 0) {
-    return undefined
-  }
+// function createIdentityPayload(
+//   id,
+//   authenticatedState = 'ambiguous',
+//   primary = true
+// ) {
+//   if (id.length === 0) {
+//     return undefined
+//   }
 
-  return {
-    id,
-    authenticatedState,
-    primary,
-  }
-}
+//   return {
+//     id,
+//     authenticatedState,
+//     primary,
+//   }
+// }
 
-function sendDisplayEvent(decision) {
+// function sendDisplayEvent(decision) {
+//   const { id, scope, scopeDetails = {} } = decision
+
+//   alloy('sendEvent', {
+//     xdm: {
+//       eventType: 'decisioning.propositionDisplay',
+//       _experience: {
+//         decisioning: {
+//           propositions: [
+//             {
+//               id: id,
+//               scope: scope,
+//               scopeDetails: scopeDetails,
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   })
+// }
+
+// function updateButtons(buttonActions) {
+//   buttonActions.forEach((buttonAction) => {
+//     const { id, text, content } = buttonAction
+
+//     const element = document.getElementById(`action-button-${id}`)
+//     element.innerText = text
+
+//     element.addEventListener('click', () => alert(content))
+//   })
+// }
+
+// function applyPersonalization(surfaceName) {
+//   return function (result) {
+//     const { propositions = [], decisions = [] } = result
+//     // send display event for the surface
+//     decisions.forEach((decision) => sendDisplayEvent(decision))
+
+//     const proposition = propositions.filter((p) =>
+//       p.scope.endsWith(surfaceName)
+//     )[0]
+
+//     if (proposition) {
+//       const element = document.querySelector('.products')
+
+//       const {
+//         buttonActions = [],
+//         thankYouMessage = 'Thank you for completing your order!',
+//       } = proposition.items[0].data.content
+
+//       updateButtons(buttonActions)
+
+//       // Replace the hero image update with a thank-you message div
+//       const thankYouDiv = document.createElement('div')
+//       thankYouDiv.className = 'thank-you-note'
+//       thankYouDiv.style.padding = '20px'
+//       thankYouDiv.style.margin = '20px auto'
+//       thankYouDiv.style.backgroundColor = '#f9f9f9'
+//       thankYouDiv.style.border = '1px solid #ccc'
+//       thankYouDiv.style.borderRadius = '10px'
+//       thankYouDiv.style.textAlign = 'center'
+
+//       thankYouDiv.innerHTML = `<h2>${thankYouMessage}</h2>`
+
+//       // Clear previous content and append the thank-you div
+//       element.innerHTML = ''
+//       element.appendChild(thankYouDiv)
+//     }
+//   }
+// }
+
+// function displayError(err) {
+//   const containerElement = document.getElementById('products')
+//   if (!containerElement) {
+//     return
+//   }
+
+//   containerElement.innerHTML = `<div id="error-detail" class="page-header">
+//                                       <h3>&#128565; There was an error</h3>
+//                                       <div class="alert alert-danger" role="alert">${err.message}</div>
+//                                     </div>`
+// }
+
+window.adobeDataLayer = window.adobeDataLayer || []
+state = []
+
+alloy('sendEvent', {
+  renderDecisions: true,
+  personalization: {
+    surfaces: ['#code-based'],
+  },
+})
+  .then(applyPersonalization('#code-based'))
+  .catch((error) => {
+    console.error('Error rendering experience:', error)
+  })
+
+const sendDisplayEvent = (decision) => {
   const { id, scope, scopeDetails = {} } = decision
 
   alloy('sendEvent', {
@@ -34,71 +131,33 @@ function sendDisplayEvent(decision) {
     },
   })
 }
+console.log(sendDisplayEvent())
+// function sendInteractEvent(label, proposition) {
+//   const { id, scope, scopeDetails = {} } = proposition
 
-function updateButtons(buttonActions) {
-  buttonActions.forEach((buttonAction) => {
-    const { id, text, content } = buttonAction
-
-    const element = document.getElementById(`action-button-${id}`)
-    element.innerText = text
-
-    element.addEventListener('click', () => alert(content))
-  })
-}
-
-function applyPersonalization(surfaceName) {
-  return function (result) {
-    const { propositions = [], decisions = [] } = result
-    // send display event for the surface
-    decisions.forEach((decision) => sendDisplayEvent(decision))
-
-    const proposition = propositions.filter((p) =>
-      p.scope.endsWith(surfaceName)
-    )[0]
-
-    if (proposition) {
-      const element = document.querySelector('.products')
-
-      const {
-        buttonActions = [],
-        thankYouMessage = 'Thank you for completing your order!',
-      } = proposition.items[0].data.content
-
-      updateButtons(buttonActions)
-
-      // Replace the hero image update with a thank-you message div
-      const thankYouDiv = document.createElement('div')
-      thankYouDiv.className = 'thank-you-note'
-      thankYouDiv.style.padding = '20px'
-      thankYouDiv.style.margin = '20px auto'
-      thankYouDiv.style.backgroundColor = '#f9f9f9'
-      thankYouDiv.style.border = '1px solid #ccc'
-      thankYouDiv.style.borderRadius = '10px'
-      thankYouDiv.style.textAlign = 'center'
-
-      thankYouDiv.innerHTML = `<h2>${thankYouMessage}</h2>`
-
-      // Clear previous content and append the thank-you div
-      element.innerHTML = ''
-      element.appendChild(thankYouDiv)
-    }
-  }
-}
-
-function displayError(err) {
-  const containerElement = document.getElementById('products')
-  if (!containerElement) {
-    return
-  }
-
-  containerElement.innerHTML = `<div id="error-detail" class="page-header">
-                                      <h3>&#128565; There was an error</h3>
-                                      <div class="alert alert-danger" role="alert">${err.message}</div>
-                                    </div>`
-}
-
-window.adobeDataLayer = window.adobeDataLayer || []
-state = []
+//   alloy('sendEvent', {
+//     xdm: {
+//       eventType: 'decisioning.propositionInteract',
+//       _experience: {
+//         decisioning: {
+//           propositions: [
+//             {
+//               id: id,
+//               scope: scope,
+//               scopeDetails: scopeDetails,
+//             },
+//           ],
+//           propositionEventType: {
+//             interact: 1,
+//           },
+//           propositionAction: {
+//             label: label,
+//           },
+//         },
+//       },
+//     },
+//   })
+// }
 
 console.log(window.adobeDataLayer)
 let cartItems = []
@@ -251,16 +310,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       console.error('No experience content received.')
     }
   })
-  alloy('sendEvent', {
-    renderDecisions: true,
-    personalization: {
-      surfaces: ['#code-based'],
-    },
-  })
-    .then(applyPersonalization('#code-based'))
-    .catch((error) => {
-      console.error('Error rendering experience:', error)
-    })
+
   console.log('Customer data pushed to the data layer:', customerData)
 
   // Reset cart and form
