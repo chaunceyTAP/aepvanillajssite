@@ -1,6 +1,6 @@
 window.adobeDataLayer = window.adobeDataLayer || []
 state = []
-
+const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,
   personalization: {
@@ -8,8 +8,11 @@ alloy('sendEvent', {
   },
 })
   .then(applyPersonalization('#code-based'))
-  .catch((error) => {
-    console.error('Error rendering experience:', error)
+  .then((res) => {
+    personalization = res
+  })
+  .then((res) => {
+    console.log(res)
   })
 
 const sendDisplayEvent = (decision) => {
