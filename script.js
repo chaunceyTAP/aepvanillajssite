@@ -7,19 +7,23 @@ alloy('configure', {
 
 console.log('addded alloyc config')
 const personalization = {}
-alloy('sendEvent', {
-  renderDecisions: true,
-  personalization: {
-    surfaces: ['#code-based'],
-  },
-})
-  .then(applyPersonalization('#code-based'))
-  .then((res) => {
-    personalization = res
+try {
+  alloy('sendEvent', {
+    renderDecisions: true,
+    personalization: {
+      surfaces: ['#code-based'],
+    },
   })
-  .then((res) => {
-    console.log(res)
-  })
+    .then(applyPersonalization('#code-based'))
+    .then((res) => {
+      personalization = res
+    })
+    .then((res) => {
+      console.log(res)
+    })
+} catch (e) {
+  console.log(e)
+}
 
 const sendDisplayEvent = (decision) => {
   const { id, scope, scopeDetails = {} } = decision
