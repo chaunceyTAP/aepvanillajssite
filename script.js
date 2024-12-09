@@ -225,6 +225,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     type: 'checkoutSubmit',
     xdm: customerData,
   }).then((response) => {
+    console.log(response)
     if (response.experience) {
       const content = response.experience[0].content
       document.getElementById('#code-based').innerHTML = content
