@@ -7,52 +7,53 @@ alloy('configure', {
 
 console.log('addded alloyc config')
 const personalization = {}
-try {
-  alloy('sendEvent', {
-    renderDecisions: true,
-    personalization: {
-      surfaces: ['#code-based'],
-    },
-  })
-    .then(applyPersonalization('#code-based'))
-    .then((res) => {
-      personalization = res
-    })
-    .then((res) => {
-      console.log(res)
-    })
-} catch (e) {
-  console.log(e)
-}
+// try {
+//   alloy('sendEvent', {
+//     renderDecisions: true,
+//     personalization: {
+//       surfaces: ['#code-based'],
+//     },
+//   })
+//     .then(applyPersonalization('#code-based'))
+//     .then((res) => {
+//       personalization = res
+//     })
+//     .then((res) => {
+//       console.log(res)
+//     })
+// } catch (e) {
+//   console.log(e)
+// }
 
-const sendDisplayEvent = (decision) => {
-  const { id, scope, scopeDetails = {} } = decision
+// const sendDisplayEvent = (decision) => {
+//   const { id, scope, scopeDetails = {} } = decision
 
-  alloy('sendEvent', {
-    xdm: {
-      eventType: 'decisioning.propositionDisplay',
-      _experience: {
-        decisioning: {
-          propositions: [
-            {
-              id: id,
-              scope: scope,
-              scopeDetails: scopeDetails,
-            },
-          ],
-        },
-      },
-    },
-  }).then((response) => {
-    if (response.experience) {
-      const content = response.experience[0].content
-      document.getElementById('#code-based').innerHTML = content
-    } else {
-      console.error('No experience content received.')
-    }
-  })
-}
-console.log(sendDisplayEvent())
+//   alloy('sendEvent', {
+//     xdm: {
+//       eventType: 'decisioning.propositionDisplay',
+//       _experience: {
+//         decisioning: {
+//           propositions: [
+//             {
+//               id: id,
+//               scope: scope,
+//               scopeDetails: scopeDetails,
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   }).then((response) => {
+//     if (response.experience) {
+//       const content = response.experience[0].content
+//       document.getElementById('#code-based').innerHTML = content
+//     } else {
+//       console.error('No experience content received.')
+//     }
+//   })
+// }
+// console.log(sendDisplayEvent())
+
 // function sendInteractEvent(label, proposition) {
 //   const { id, scope, scopeDetails = {} } = proposition
 
