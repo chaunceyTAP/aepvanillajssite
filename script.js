@@ -11,6 +11,7 @@ const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,
   personalization: {
+    sendDisplayEvent: true,
     surfaces: [
       '#cp-code-based-html',
       'web://chaunceytap.github.io/aepvanillajssite',
@@ -23,7 +24,6 @@ alloy('sendEvent', {
   console.log(
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
-  applyPersonalization('#code-based')
 })
 
 // } catch (e) {
