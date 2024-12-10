@@ -22,7 +22,8 @@ alloy('sendEvent', {
 }).then((res) => {
   console.log(
     `this is returned from the code based experience${JSON.parse(
-      res['decisions']['items']['data']['content']
+      res['decisions']['items']
+      // ['data']['content']
     )}`
   )
 })
