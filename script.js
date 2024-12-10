@@ -24,67 +24,13 @@ alloy('sendEvent', {
   console.log(
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
+  if (res.decisions) {
+    const content = res.decisions.items[0].content
+    document.getElementById('#cp-code-based-html').innerHTML = content
+  } else {
+    console.error('No experience content received.')
+  }
 })
-
-// } catch (e) {
-//   console.log(e)
-// }
-
-// const sendDisplayEvent = (decision) => {
-//   const { id, scope, scopeDetails = {} } = decision
-
-//   alloy('sendEvent', {
-//     xdm: {
-//       eventType: 'decisioning.propositionDisplay',
-//       _experience: {
-//         decisioning: {
-//           propositions: [
-//             {
-//               id: id,
-//               scope: scope,
-//               scopeDetails: scopeDetails,
-//             },
-//           ],
-//         },
-//       },
-//     },
-//   }).then((response) => {
-//     if (response.experience) {
-//       const content = response.experience[0].content
-//       document.getElementById('#code-based').innerHTML = content
-//     } else {
-//       console.error('No experience content received.')
-//     }
-//   })
-// }
-// console.log(sendDisplayEvent())
-
-// function sendInteractEvent(label, proposition) {
-//   const { id, scope, scopeDetails = {} } = proposition
-
-//   alloy('sendEvent', {
-//     xdm: {
-//       eventType: 'decisioning.propositionInteract',
-//       _experience: {
-//         decisioning: {
-//           propositions: [
-//             {
-//               id: id,
-//               scope: scope,
-//               scopeDetails: scopeDetails,
-//             },
-//           ],
-//           propositionEventType: {
-//             interact: 1,
-//           },
-//           propositionAction: {
-//             label: label,
-//           },
-//         },
-//       },
-//     },
-//   })
-// }
 
 console.log(window.adobeDataLayer)
 let cartItems = []
