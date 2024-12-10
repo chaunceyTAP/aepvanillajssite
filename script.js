@@ -14,6 +14,7 @@ alloy('sendEvent', {
     surfaces: [
       '#cp-code-based-html',
       'web://chaunceytap.github.io/aepvanillajssite',
+      'web://chaunceytap.github.io/aepvanillajssite#cp-code-based-html',
     ],
   },
 }).then((res) => {
