@@ -4,6 +4,26 @@ alloy('configure', {
   orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
+function sendDisplayEvent(decision) {
+  const { id, scope, scopeDetails = {} } = decision
+
+  alloy('sendEvent', {
+    xdm: {
+      eventType: 'decisioning.propositionDisplay',
+      _experience: {
+        decisioning: {
+          propositions: [
+            {
+              id: id,
+              scope: scope,
+              scopeDetails: scopeDetails,
+            },
+          ],
+        },
+      },
+    },
+  })
+}
 function applyPersonalization(surfaceName) {
   return function (result) {
     const { propositions = [], decisions = [] } = result
@@ -15,16 +35,23 @@ function applyPersonalization(surfaceName) {
     )[0]
 
     if (proposition) {
-      const element = document.querySelector('img.ajo-decision')
+      // const element = document.querySelector('#cp-code-based-html')
 
-      const {
-        buttonActions = [],
-        heroImageName = 'demo-marketing-decision1-default.png',
-      } = proposition.items[0].data.content
+      // const {
+      //   buttonActions = [],
+      //   heroImageName = 'demo-marketing-decision1-default.png',
+      // } = proposition.items[0].data.content
 
-      updateButtons(buttonActions)
+      // updateButtons(buttonActions)
 
-      element.src = `img/${heroImageName}`
+      // element.src = `img/${heroImageName}`
+
+      document
+        .querySelector('#cp-code-based-html')
+        .insertAdjacentHTML(
+          'beforeend',
+          result.decisions[0].items[0].data.content
+        )
     }
   }
 }
@@ -50,7 +77,7 @@ alloy('sendEvent', {
       `this is returned from the code based experience${JSON.stringify(res)}`
     )
     if (res.decisions) {
-      const con = res.decisions[0].items[0].data.content
+      var con = res.decisions[0].items[0].data.content
       console.log(JSON.stringify(res.decisions[0].items[0].data.content))
       document
         .querySelector('#cp-code-based-html')
