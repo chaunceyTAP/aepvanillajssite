@@ -23,6 +23,7 @@ alloy('sendEvent', {
   console.log(
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
+  applyPersonalization('#code-based')
 })
 
 // } catch (e) {
