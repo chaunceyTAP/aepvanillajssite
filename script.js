@@ -15,6 +15,8 @@ alloy('sendEvent', {
       '#cp-code-based-html',
       'web://chaunceytap.github.io/aepvanillajssite',
       'web://chaunceytap.github.io/aepvanillajssite#cp-code-based-html',
+      '#code-based',
+      'web://chaunceytap.github.io/aepvanillajssite#code-based',
     ],
   },
 }).then((res) => {
