@@ -19,11 +19,15 @@ alloy('sendEvent', {
       'web://chaunceytap.github.io/aepvanillajssite#code-based',
     ],
   },
-}).then((res) => {
-  console.log(
-    `this is returned from the code based experience${JSON.stringify(res)}`
-  )
 })
+  .then((res) => {
+    console.log(
+      `this is returned from the code based experience${JSON.stringify(res)}`
+    )
+  })
+  .then((res) => {
+    console.log(res.decisions.items.data.content)
+  })
 // } catch (e) {
 //   console.log(e)
 // }
@@ -212,7 +216,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       priceTotal: item.price,
       SKU: item.product,
     })),
-    timestamp: '2024-11-19T22:07:47.000Z',
+    timestamp: '2024-12-10T11:57:47.000Z',
   }
 
   // Push the customer data to the data layer
