@@ -70,24 +70,23 @@ alloy('sendEvent', {
       'web://chaunceytap.github.io/aepvanillajssite#code-based',
     ],
   },
-})
-  .then(applyPersonalization('#cp-code-based-html'))
-  .then((res) => {
-    console.log(
-      `this is returned from the code based experience${JSON.stringify(res)}`
-    )
-    if (res.decisions) {
-      var con = res.decisions[0].items[0].data.content
-      console.log(JSON.stringify(res.decisions[0].items[0].data.content))
-      document
-        .querySelector('#cp-code-based-html')
-        .insertAdjacentHTML('beforeend', con)
+}).then((res) => {
+  console.log(
+    `this is returned from the code based experience${JSON.stringify(res)}`
+  )
+  if (res.decisions) {
+    var con = res.decisions[0].items[0].data.content
+    console.log(JSON.stringify(res.decisions[0].items[0].data.content))
+    document
+      .querySelector('#cp-code-based-html')
+      .insertAdjacentHTML('beforeend', con)
 
-      console.log('updated the dom with the code based experience')
-    } else {
-      console.error('No experience content received.')
-    }
-  })
+    console.log('updated the dom with the code based experience')
+  } else {
+    console.error('No experience content received.')
+  }
+  applyPersonalization('#cp-code-based-html')
+})
 
 console.log(window.adobeDataLayer)
 let cartItems = []
