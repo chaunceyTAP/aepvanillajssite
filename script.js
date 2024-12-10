@@ -25,7 +25,8 @@ alloy('sendEvent', {
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
   if (res.decisions) {
-    const con = res.decisions.items.data.content
+    const con = res.decisions.items.data
+    console.log(con)
     const content = (con.document.getElementById(
       '#cp-code-based-html'
     ).innerHTML = content)
