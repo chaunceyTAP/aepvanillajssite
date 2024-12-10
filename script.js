@@ -11,7 +11,7 @@ try {
   alloy('sendEvent', {
     renderDecisions: true,
     personalization: {
-      surfaces: ['#cp-code-based-html', '#aepvanillasiteweb'],
+      surfaces: ['#cp-code-based-html'],
     },
   }).then((res) => {
     console.log(
