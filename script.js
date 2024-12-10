@@ -19,7 +19,9 @@ alloy('sendEvent', {
   //   personalization = res
   // })
   .then((res) => {
-    console.log(res)
+    console.log(
+      `this is returned from the code based experience${JSON.stringify(res)}`
+    )
   })
 // } catch (e) {
 //   console.log(e)
