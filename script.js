@@ -4,7 +4,30 @@ alloy('configure', {
   orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
+function applyPersonalization(surfaceName) {
+  return function (result) {
+    const { propositions = [], decisions = [] } = result
+    // send display event for the surface
+    decisions.forEach((decision) => sendDisplayEvent(decision))
 
+    const proposition = propositions.filter((p) =>
+      p.scope.endsWith(surfaceName)
+    )[0]
+
+    if (proposition) {
+      const element = document.querySelector('img.ajo-decision')
+
+      const {
+        buttonActions = [],
+        heroImageName = 'demo-marketing-decision1-default.png',
+      } = proposition.items[0].data.content
+
+      updateButtons(buttonActions)
+
+      element.src = `img/${heroImageName}`
+    }
+  }
+}
 console.log('addded alloyc config')
 const personalization = {}
 // try {
@@ -20,22 +43,24 @@ alloy('sendEvent', {
       'web://chaunceytap.github.io/aepvanillajssite#code-based',
     ],
   },
-}).then((res) => {
-  console.log(
-    `this is returned from the code based experience${JSON.stringify(res)}`
-  )
-  if (res.decisions) {
-    const con = res.decisions[0].items[0].data.content
-    console.log(JSON.stringify(res.decisions[0].items[0].data.content))
-    document
-      .querySelector('#cp-code-based-html')
-      .insertAdjacentHTML('beforeend', con)
-
-    console.log('update the dom with the code based experience')
-  } else {
-    console.error('No experience content received.')
-  }
 })
+  .then(applyPersonalization('#cp-code-based-html'))
+  .then((res) => {
+    console.log(
+      `this is returned from the code based experience${JSON.stringify(res)}`
+    )
+    if (res.decisions) {
+      const con = res.decisions[0].items[0].data.content
+      console.log(JSON.stringify(res.decisions[0].items[0].data.content))
+      document
+        .querySelector('#cp-code-based-html')
+        .insertAdjacentHTML('beforeend', con)
+
+      console.log('updated the dom with the code based experience')
+    } else {
+      console.error('No experience content received.')
+    }
+  })
 
 console.log(window.adobeDataLayer)
 let cartItems = []
