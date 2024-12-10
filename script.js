@@ -26,7 +26,7 @@ alloy('sendEvent', {
   )
   if (res.decisions) {
     const con = res.decisions.items
-    console.log(JSON.stringify(con))
+    console.log(JSON.stringify(res.decisions))
     const content = (con.document.getElementById(
       '#cp-code-based-html'
     ).innerHTML = content)
