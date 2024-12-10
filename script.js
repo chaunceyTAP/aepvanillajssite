@@ -22,7 +22,9 @@ alloy('sendEvent', {
 })
   .then((res) => {
     console.log(
-      `this is returned from the code based experience${JSON.stringify(res)}`
+      `this is returned from the code based experience${JSON.stringify(
+        res.decisions.items.data.content
+      )}`
     )
   })
   .then((res) => {
