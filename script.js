@@ -11,13 +11,11 @@ try {
   alloy('sendEvent', {
     renderDecisions: true,
     personalization: {
-      surfaces: ['#cp-code-based-html'],
+      surfaces: ['#cp-code-based-html', '#aepvanillasiteweb'],
     },
   }).then((res) => {
     console.log(
-      `this is returned from the code based experience${JSON.stringify(
-        res.decisions
-      )}`
+      `this is returned from the code based experience${JSON.stringify(res)}`
     )
   })
 } catch (e) {
@@ -227,7 +225,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     console.log(response)
     if (response.experience) {
       const content = response.experience[0].content
-      document.getElementById('#code-based').innerHTML = content
+      document.getElementById('#cp-code-based-html').innerHTML = content
     } else {
       console.error('No experience content received.')
     }
