@@ -11,7 +11,10 @@ const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,
   personalization: {
-    surfaces: ['#cp-code-based-html'],
+    surfaces: [
+      '#cp-code-based-html',
+      'web://chaunceytap.github.io/aepvanillajssite',
+    ],
   },
 }).then((res) => {
   console.log(
