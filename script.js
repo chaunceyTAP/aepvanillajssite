@@ -19,17 +19,14 @@ alloy('sendEvent', {
       'web://chaunceytap.github.io/aepvanillajssite#code-based',
     ],
   },
+}).then((res) => {
+  console.log(
+    `this is returned from the code based experience${JSON.stringify(
+      res.decisions.items.data.content
+    )}`
+  )
 })
-  .then((res) => {
-    console.log(
-      `this is returned from the code based experience${JSON.stringify(
-        res.decisions.items.data.content
-      )}`
-    )
-  })
-  .then((res) => {
-    console.log(res.decisions.items.data.content)
-  })
+
 // } catch (e) {
 //   console.log(e)
 // }
