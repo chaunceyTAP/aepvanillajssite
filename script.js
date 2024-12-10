@@ -8,18 +8,18 @@ alloy('configure', {
 console.log('addded alloyc config')
 const personalization = {}
 // try {
-alloy('sendEvent', {
-  renderDecisions: true,
-  personalization: {
-    surfaces: ['#cp-code-based-html'],
-  },
-}).then((res) => {
-  console.log(
-    `this is returned from the code based experience${JSON.stringify(
-      res.decisions
-    )}`
-  )
-})
+// alloy('sendEvent', {
+//   renderDecisions: true,
+//   personalization: {
+//     surfaces: ['#cp-code-based-html'],
+//   },
+// }).then((res) => {
+//   console.log(
+//     `this is returned from the code based experience${JSON.stringify(
+//       res.decisions
+//     )}`
+//   )
+// })
 // } catch (e) {
 //   console.log(e)
 // }
