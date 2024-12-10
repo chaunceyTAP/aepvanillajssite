@@ -25,7 +25,7 @@ alloy('sendEvent', {
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
   if (res.decisions) {
-    const content = (res.decisions.items.content.document.getElementById(
+    const content = (res.decisions.items.data.content.document.getElementById(
       '#cp-code-based-html'
     ).innerHTML = content)
     console.log('update the dom with the code based experience')
