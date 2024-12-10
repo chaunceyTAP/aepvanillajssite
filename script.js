@@ -74,7 +74,7 @@ alloy('sendEvent', {
   console.log(
     `this is returned from the code based experience${JSON.stringify(res)}`
   )
-  if (res.decisions[0].items[0].data.content) {
+  if (res.decisions[0].items[0].data.content != undefined) {
     var con = res.decisions[0].items[0].data.content
     console.log(JSON.stringify(res.decisions[0].items[0].data.content))
     document
