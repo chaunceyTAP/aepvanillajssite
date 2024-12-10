@@ -27,6 +27,7 @@ alloy('sendEvent', {
   if (res.decisions) {
     const content = res.decisions.items[0].content
     document.getElementById('#cp-code-based-html').innerHTML = content
+    console.log('update the dom with the code based experience')
   } else {
     console.error('No experience content received.')
   }
