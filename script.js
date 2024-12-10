@@ -11,7 +11,7 @@ const personalization = {}
 alloy('sendEvent', {
   renderDecisions: true,
   personalization: {
-    surfaces: ['#code-based'],
+    surfaces: ['#cp-code-based-html'],
   },
 })
   // .then(applyPersonalization('#code-based'))
