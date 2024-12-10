@@ -13,18 +13,13 @@ alloy('sendEvent', {
   personalization: {
     surfaces: ['#cp-code-based-html'],
   },
+}).then((res) => {
+  console.log(
+    `this is returned from the code based experience${JSON.stringify(
+      res.decisions
+    )}`
+  )
 })
-  // .then(applyPersonalization('#code-based'))
-  // .then((res) => {
-  //   personalization = res
-  // })
-  .then((res) => {
-    console.log(
-      `this is returned from the code based experience${JSON.stringify(
-        res.decisions
-      )}`
-    )
-  })
 // } catch (e) {
 //   console.log(e)
 // }
