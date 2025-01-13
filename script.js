@@ -5,6 +5,7 @@ alloy('configure', {
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
 const currentTime = new Date().toISOString()
+console.log(currentTime)
 
 console.log('addded alloyc config')
 const personalization = {}
