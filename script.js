@@ -4,90 +4,82 @@ alloy('configure', {
   orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
-const currentTime = new Date().toISOString()
-function sendDisplayEvent(decision) {
-  const { id, scope, scopeDetails = {} } = decision
 
-  alloy('sendEvent', {
-    xdm: {
-      eventType: 'decisioning.propositionDisplay',
-      _experience: {
-        decisioning: {
-          propositions: [
-            {
-              id: id,
-              scope: scope,
-              scopeDetails: scopeDetails,
-            },
-          ],
-        },
-      },
-    },
-  })
-}
-function applyPersonalization(surfaceName) {
-  return function (result) {
-    const { propositions = [], decisions = [] } = result
-    // send display event for the surface
-    decisions.forEach((decision) => sendDisplayEvent(decision))
-
-    const proposition = propositions.filter((p) =>
-      p.scope.endsWith(surfaceName)
-    )[0]
-
-    if (proposition) {
-      // const element = document.querySelector('#cp-code-based-html')
-
-      // const {
-      //   buttonActions = [],
-      //   heroImageName = 'demo-marketing-decision1-default.png',
-      // } = proposition.items[0].data.content
-
-      // updateButtons(buttonActions)
-
-      // element.src = `img/${heroImageName}`
-
-      document
-        .querySelector('#cp-code-based-html')
-        .insertAdjacentHTML(
-          'beforeend',
-          result.decisions[0].items[0].data.content
-        )
-    }
-  }
-}
 console.log('addded alloyc config')
 const personalization = {}
 // try {
 alloy('sendEvent', {
   renderDecisions: true,
   personalization: {
-    sendDisplayEvent: true,
-    surfaces: [
-      '#cp-code-based-html',
-      'web://chaunceytap.github.io/aepvanillajssite',
-      'web://chaunceytap.github.io/aepvanillajssite/#cp-code-based-html',
-      '#code-based',
-      'web://chaunceytap.github.io/aepvanillajssite/#code-based',
-    ],
+    surfaces: ['#code-based'],
   },
-}).then((res) => {
-  console.log(
-    `this is returned from the code based experience${JSON.stringify(res)}`
-  )
-  if (res.decisions[0] != undefined) {
-    var con = res.decisions[0].items[0].data.content
-    console.log(JSON.stringify(res.decisions[0].items[0].data.content))
-    document
-      .querySelector('#cp-code-based-html')
-      .insertAdjacentHTML('beforeend', con)
-
-    console.log('updated the dom with the code based experience')
-  } else {
-    console.error('No experience content received.')
-  }
-  applyPersonalization('#cp-code-based-html')
 })
+  // .then(applyPersonalization('#code-based'))
+  // .then((res) => {
+  //   personalization = res
+  // })
+  .then((res) => {
+    console.log(res)
+  })
+// } catch (e) {
+//   console.log(e)
+// }
+
+// const sendDisplayEvent = (decision) => {
+//   const { id, scope, scopeDetails = {} } = decision
+
+//   alloy('sendEvent', {
+//     xdm: {
+//       eventType: 'decisioning.propositionDisplay',
+//       _experience: {
+//         decisioning: {
+//           propositions: [
+//             {
+//               id: id,
+//               scope: scope,
+//               scopeDetails: scopeDetails,
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   }).then((response) => {
+//     if (response.experience) {
+//       const content = response.experience[0].content
+//       document.getElementById('#code-based').innerHTML = content
+//     } else {
+//       console.error('No experience content received.')
+//     }
+//   })
+// }
+// console.log(sendDisplayEvent())
+
+// function sendInteractEvent(label, proposition) {
+//   const { id, scope, scopeDetails = {} } = proposition
+
+//   alloy('sendEvent', {
+//     xdm: {
+//       eventType: 'decisioning.propositionInteract',
+//       _experience: {
+//         decisioning: {
+//           propositions: [
+//             {
+//               id: id,
+//               scope: scope,
+//               scopeDetails: scopeDetails,
+//             },
+//           ],
+//           propositionEventType: {
+//             interact: 1,
+//           },
+//           propositionAction: {
+//             label: label,
+//           },
+//         },
+//       },
+//     },
+//   })
+// }
 
 console.log(window.adobeDataLayer)
 let cartItems = []
@@ -217,7 +209,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       priceTotal: item.price,
       SKU: item.product,
     })),
-    timestamp: currentTime,
+    timestamp: '2024-11-19T22:07:47.000Z',
   }
 
   // Push the customer data to the data layer
@@ -236,7 +228,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
     console.log(response)
     if (response.experience) {
       const content = response.experience[0].content
-      document.getElementById('#cp-code-based-html').innerHTML = content
+      document.getElementById('#code-based').innerHTML = content
     } else {
       console.error('No experience content received.')
     }
