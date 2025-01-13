@@ -4,6 +4,7 @@ alloy('configure', {
   orgId: '18F332CC5B4DB4150A495DF0@AdobeOrg',
   edgeConfigId: 'dcf820d0-2016-41e5-a0ce-2853e214114b',
 })
+const currentTime = new Date().toISOString()
 function sendDisplayEvent(decision) {
   const { id, scope, scopeDetails = {} } = decision
 
@@ -216,7 +217,7 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
       priceTotal: item.price,
       SKU: item.product,
     })),
-    timestamp: '2024-12-10T11:57:47.000Z',
+    timestamp: currentTime,
   }
 
   // Push the customer data to the data layer
