@@ -19,7 +19,8 @@
   "dependencies": {
     "@adobe/adobe-client-data-layer": "^2.0.2",
     "@adobe/alloy": "^2.24.0",
-    "firebase": "^11.0.2",
+    "@firebase/messaging": "^0.12.16",
+    "firebase": "^11.2.0",
     "vanilla-js-site": "file:"
   }
 }
