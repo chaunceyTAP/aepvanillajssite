@@ -1,6 +1,12 @@
 // Import Firebase scripts
-importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js')
-importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging.js')
+// importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js')
+// importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging.js')
+
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'
+// import { getAnalytics } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js'
+// import { getMessaging, onMessage } from 'firebase/messaging'
+import { initializeApp } from 'firebase/app'
+import { getMessaging } from 'firebase/messaging'
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -13,10 +19,10 @@ const firebaseConfig = {
   measurementId: 'G-NYZ8FGYDSN',
 }
 
-firebase.initializeApp(firebaseConfig)
-
+// firebase.initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
 // Get the Firebase Messaging instance
-const messaging = firebase.messaging()
+const messaging = getMessaging(app)
 
 // Handle background messages
 messaging.onBackgroundMessage((payload) => {
