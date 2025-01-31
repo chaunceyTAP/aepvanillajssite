@@ -25,7 +25,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 // Get the Firebase Messaging instance
 const messaging = getMessaging(app)
-
+getToken(messaging, {
+  vapidKey:
+    'BJNAl-xOuYkL8VUSNxqVpVDHHwk63TCSk-n8rfdjmCuftqzVtg1LtpXJvXjiAQyozBUCb25Vv2DFP72phYRA2TU',
+})
 // Handle background messages
 messaging.onBackgroundMessage((payload) => {
   console.log(
