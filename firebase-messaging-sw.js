@@ -5,8 +5,10 @@
 // import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'
 // import { getAnalytics } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js'
 // import { getMessaging, onMessage } from 'firebase/messaging'
-import { initializeApp } from 'firebase/app'
-import { getMessaging } from 'firebase/messaging'
+// import { initializeApp } from 'firebase/app'
+// import { getMessaging } from 'firebase/messaging'
+const getMessaging = require('@firebase/messaging')
+const initializeApp = require('@firebase/app')
 
 // Initialize Firebase
 const firebaseConfig = {
