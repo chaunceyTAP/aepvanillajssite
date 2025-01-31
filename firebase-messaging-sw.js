@@ -1,11 +1,8 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Import Firebase scripts
+importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js')
+importScripts('https://www.gstatic.com/firebasejs/11.0.2/firebase-messaging.js')
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Initialize Firebase
 const firebaseConfig = {
   apiKey: 'AIzaSyAkX9vM0SfqKJmx2xbzYoEq8SjCjAbyDrk',
   authDomain: 'aep-project-eb6b4.firebaseapp.com',
@@ -16,28 +13,25 @@ const firebaseConfig = {
   measurementId: 'G-NYZ8FGYDSN',
 }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const analytics = getAnalytics(app)
-const messaging = getMessaging(app)
-getToken(messaging, {
-  vapidKey:
-    'BJNAl-xOuYkL8VUSNxqVpVDHHwk63TCSk-n8rfdjmCuftqzVtg1LtpXJvXjiAQyozBUCb25Vv2DFP72phYRA2TU',
+firebase.initializeApp(firebaseConfig)
+
+// Get the Firebase Messaging instance
+const messaging = firebase.messaging()
+
+// Handle background messages
+messaging.onBackgroundMessage((payload) => {
+  console.log(
+    '[firebase-messaging-sw.js] Received background message:',
+    payload
+  )
+
+  // Customize notification
+  const notificationTitle = payload.notification?.title || 'New Message'
+  const notificationOptions = {
+    body: payload.notification?.body || 'You have a new message!',
+    icon: payload.notification?.icon || '/icons/icon-192x192.png', // Default icon
+  }
+
+  // Show the notification
+  self.registration.showNotification(notificationTitle, notificationOptions)
 })
-  .then((currentToken) => {
-    if (currentToken) {
-      // Send the token to your server and update the UI if necessary
-      // ...
-      console.log(currentToken)
-    } else {
-      // Show permission request UI
-      console.log(
-        'No registration token available. Request permission to generate one.'
-      )
-      // ...
-    }
-  })
-  .catch((err) => {
-    console.log('An error occurred while retrieving token. ', err)
-    // ...
-  })
